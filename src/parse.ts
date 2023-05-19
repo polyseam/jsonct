@@ -192,6 +192,11 @@ class JSONCParser {
           };
           break;
         }
+        case '`': { // parse string token
+          const startIndex = i;
+          
+          break;
+        }
         default: { // parse null, true, false or number token
           const startIndex = i;
           for (; i < this.#length; i++) { // read until find numberEndToken

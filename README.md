@@ -32,3 +32,5 @@ Why doesn't this exist?`
 ## ts implementation
 
 A JSONCT parser written in Typescript is found in [src/parse.ts](src/parse.ts).
+
+Nearly everything has been ported over from the [JSONC parser in the deno std lib](https://deno.land/std@0.188.0/jsonc/mod.ts)
