@@ -1,7 +1,7 @@
 // Copyright 2018-2023 the Deno authors. All rights reserved. MIT license.
 
-import { walk } from "../../../fs/mod.ts";
-import { fromFileUrl } from "../../../path/mod.ts";
+import { walk } from "https://deno.land/std@0.188.0/fs/walk.ts";
+import { fromFileUrl } from "https://deno.land/std@0.188.0/path/mod.ts";
 
 // helper used for testing
 const sta = await Deno.readTextFile(new URL("./sta.js", import.meta.url));
