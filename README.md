@@ -2,12 +2,12 @@
 
 JSON is used all over the web, and it is used to encode so many types of data.
 
-It is missing two critical features for many use cases though!
+It is missing two critical features for many use cases though:
 
-1. There is no native comment syntax, but JSONC fixed this - it permits JS style
-   comments within the document.
+1. There is no native comment syntax - but JSONC fixed this by allowing JS style
+   comments!
 
-2. JSON does not support multi-line strings, which are an extremely helpful
+2. There is no support for multi-line strings, which are an extremely helpful
    construct for all kinds of programs.
 
 JSONCT allows the JS template literal syntax for multiline strings as an
