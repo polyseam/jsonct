@@ -1,5 +1,7 @@
 # JSONCT - JSON with comments and template literals
 
+[Blog Post](https://dev.to/polyseam/json-with-multiline-strings-4645)
+
 JSON is used all over the web, and it is used to encode so many types of data.
 
 It is missing two critical features for many use cases though:
