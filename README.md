@@ -31,4 +31,4 @@ Why doesn't this exist?`
 
 ## ts implementation
 
-A JSONCT parser written in Typescript is found in [src/jsonct.ts](src/parse.ts).
+A JSONCT parser written in Typescript is found in [src/parse.ts](src/parse.ts).
