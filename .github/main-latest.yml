@@ -1,0 +1,17 @@
+name: main # used by the cndi team, not end users
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  main-test-and-lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: use deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.33.3
+      - run: deno lint
+      - run: deno task test
