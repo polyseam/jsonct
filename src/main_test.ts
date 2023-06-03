@@ -132,7 +132,7 @@ Deno.test({
 });
 
 Deno.test({
-  name: "[jsonc] parse template string as string",
+  name: "[jsonct] parse template string as string",
   fn() {
     const json = JSON.parse('{"name":"John","age":30,"description":"Hello, my name is John and I\'m 30 years old.\\nI like cars and my favorite car is Ford.","cars":[{"name":"Ford","models":["Fiesta","Focus","Mustang"]},{"name":"BMW","models":["320","X3","X5"]}]}');
     const jsonct = parse(`{

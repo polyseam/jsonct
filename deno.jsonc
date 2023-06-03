@@ -1,5 +1,8 @@
 {
   "fmt": {
     "exclude": ["src/testdata/"]
+  },
+  "tasks": {
+    "test":"deno test -A"
   }
 }
