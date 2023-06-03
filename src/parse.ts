@@ -60,17 +60,22 @@ enum TokenType {
   ValueSeparator,
   NullOrTrueOrFalseOrNumber,
   String,
+  MultilineString,
 }
 
 type Token = {
   type: Exclude<
     TokenType,
-    TokenType.String | TokenType.NullOrTrueOrFalseOrNumber
+    TokenType.String | TokenType.NullOrTrueOrFalseOrNumber | TokenType.MultilineString
   >;
   sourceText?: undefined;
   position: number;
 } | {
   type: TokenType.String;
+  sourceText: string;
+  position: number;
+} | {
+  type: TokenType.MultilineString;
   sourceText: string;
   position: number;
 } | {
@@ -192,9 +197,21 @@ class JSONCParser {
           };
           break;
         }
-        case '`': { // parse string token
+        case "`": { // parse string token
           const startIndex = i;
-          
+          let shouldEscapeNext = false;
+          i++;
+          for (; i < this.#length; i++) { // read until find "`"
+            if (this.#text[i] === "`" && !shouldEscapeNext) {
+              break;
+            }
+            shouldEscapeNext = this.#text[i] === "\\" && !shouldEscapeNext;
+          }
+          yield {
+            type: TokenType.MultilineString,
+            sourceText: this.#text.substring(startIndex, i + 1),
+            position: startIndex,
+          };
           break;
         }
         default: { // parse null, true, false or number token
@@ -224,6 +241,8 @@ class JSONCParser {
         return this.#parseNullOrTrueOrFalseOrNumber(value);
       case TokenType.String:
         return this.#parseString(value);
+      case TokenType.MultilineString:
+        return this.#parseMultilineString(value);
       default:
         throw new SyntaxError(buildErrorMessage(value));
     }
@@ -322,6 +341,26 @@ class JSONCParser {
       }
     }
   }
+
+  #parseMultilineString(value: {
+    type: TokenType.MultilineString;
+    sourceText: string;
+    position: number;
+  }): string {
+    let parsed;
+    try {
+      const sourceText = `"${value.sourceText.substring(
+        1,
+        value.sourceText.length - 1,
+      )}"`.replace(/\n/g, "\\n");
+      parsed = originalJSONParse(sourceText);
+    } catch {
+      throw new SyntaxError(buildErrorMessage(value));
+    }
+    assert(typeof parsed === "string");
+    return parsed;
+  }
+
   #parseString(value: {
     type: TokenType.String;
     sourceText: string;
@@ -387,6 +426,11 @@ function buildErrorMessage({ type, sourceText, position }: Token): string {
     case TokenType.NullOrTrueOrFalseOrNumber:
     case TokenType.String:
       // Truncate the string so that it is within 30 lengths.
+      token = 30 < sourceText.length
+        ? `${sourceText.slice(0, 30)}...`
+        : sourceText;
+      break;
+    case TokenType.MultilineString:
       token = 30 < sourceText.length
         ? `${sourceText.slice(0, 30)}...`
         : sourceText;
