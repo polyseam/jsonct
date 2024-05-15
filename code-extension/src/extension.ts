@@ -1,24 +1,40 @@
-import * as vscode from "vscode";
+import * as path from 'path';
+import { workspace, ExtensionContext } from 'vscode';
+import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
-export function activate(context: vscode.ExtensionContext) {
-  const provider = vscode.languages.registerCompletionItemProvider(
-    "jsonct",
-    {
-      provideCompletionItems(_document, _position, _token, _context) {
-        // Sample completions
-        const completions = [
-          new vscode.CompletionItem("true", vscode.CompletionItemKind.Keyword),
-          new vscode.CompletionItem("false", vscode.CompletionItemKind.Keyword),
-          new vscode.CompletionItem("null", vscode.CompletionItemKind.Keyword),
-        ];
+let client: LanguageClient;
 
-        return completions;
-      },
-    },
-    '"', // Trigger IntelliSense inside strings
+export function activate(context: ExtensionContext) {
+  const serverModule = context.asAbsolutePath(path.join('out', 'languageServer.js'));
+  const serverOptions: ServerOptions = {
+    run: { module: serverModule, transport: TransportKind.ipc },
+    debug: {
+      module: serverModule,
+      transport: TransportKind.ipc,
+      options: { execArgv: ['--nolazy', '--inspect=6009'] }
+    }
+  };
+
+  const clientOptions: LanguageClientOptions = {
+    documentSelector: [{ scheme: 'file', language: 'jsonct' }],
+    synchronize: {
+      fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
+    }
+  };
+
+  client = new LanguageClient(
+    'jsonctLanguageServer',
+    'JSONCT Language Server',
+    serverOptions,
+    clientOptions
   );
 
-  context.subscriptions.push(provider);
+  client.start();
 }
 
-export function deactivate() {}
+export function deactivate(): Thenable<void> | undefined {
+  if (!client) {
+    return undefined;
+  }
+  return client.stop();
+}
