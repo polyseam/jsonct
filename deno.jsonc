@@ -1,8 +1,4 @@
 {
-  "fmt": {
-    "exclude": ["src/testdata/"]
-  },
-  "tasks": {
-    "test":"deno test -A"
-  }
+  "name": "@polyseam/jsonct",
+  "version": "0.1.0"
 }
