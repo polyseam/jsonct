@@ -1,0 +1,6 @@
+{
+    "foo":"bar",
+    "baz":1,
+    "qux": `oh shit 
+    here we go again`
+}

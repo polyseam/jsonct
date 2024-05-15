@@ -1,0 +1,55 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "scopeName": "source.jsonct",
+    "fileTypes": ["jsonct"],
+    "name": "JSONCT",
+    "patterns": [
+      {
+        "name": "comment.line.double-slash.jsonct",
+        "match": "//.*$"
+      },
+      {
+        "name": "comment.block.jsonct",
+        "begin": "/\\*",
+        "end": "\\*/"
+      },
+      {
+        "name": "string.quoted.double.jsonct",
+        "begin": "\"",
+        "end": "\"",
+        "patterns": [
+          {
+            "name": "constant.character.escape.jsonct",
+            "match": "\\\\."
+          }
+        ]
+      },
+      {
+        "name": "string.quoted.backtick.jsonct",
+        "begin": "`",
+        "end": "`",
+        "patterns": [
+          {
+            "name": "constant.character.escape.jsonct",
+            "match": "\\\\."
+          }
+        ]
+      },
+      {
+        "name": "constant.numeric.jsonct",
+        "match": "\\b-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b"
+      },
+      {
+        "name": "constant.language.boolean.jsonct",
+        "match": "\\b(?:true|false|null)\\b"
+      },
+      {
+        "name": "punctuation.separator.key-value.jsonct",
+        "match": ":"
+      },
+      {
+        "name": "punctuation.separator.array.jsonct",
+        "match": ","
+      }
+    ]
+  }  

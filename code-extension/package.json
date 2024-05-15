@@ -15,13 +15,8 @@
     "languages": [
       {
         "id": "jsonct",
-        "aliases": [
-          "JSONCT",
-          "jsonct"
-        ],
-        "extensions": [
-          ".jsonct"
-        ],
+        "aliases": ["JSONCT", "jsonct"],
+        "extensions": [".jsonct"],
         "configuration": "./language-configuration.json"
       }
     ],
